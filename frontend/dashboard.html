@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clinical MRMS Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <img class="brand-mark" src="assets/mrms-logo.svg" alt="Clinical MRMS logo">
+      <div>
+        <strong>Clinical MRMS</strong>
+        <small>Medical Records</small>
+      </div>
+    </div>
+    <nav>
+      <button class="nav-link active" data-view="dashboard">Dashboard</button>
+      <button class="nav-link" data-view="patients">Patients</button>
+      <button class="nav-link" data-view="conditions">Conditions</button>
+      <button class="nav-link" data-view="doctors">Doctors</button>
+      <button class="nav-link" data-view="diagnoses">Diagnoses</button>
+    </nav>
+    <div class="role-picker">
+      <span id="currentUserName">User</span>
+      <small id="currentUserRole">Role</small>
+      <button type="button" class="secondary" id="logoutBtn">Logout</button>
+    </div>
+  </aside>
+
+  <main class="app" id="appShell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Medical Records Management System</p>
+        <h1 id="pageTitle">Dashboard</h1>
+      </div>
+      <div class="top-actions">
+        <button type="button" id="adminRegisterBtn" hidden>Register User</button>
+        <span id="statusMessage" class="status">Ready</span>
+      </div>
+    </header>
+
+    <section id="dashboard" class="view active">
+      <div class="dashboard-hero">
+        <div>
+          <span class="pill">Clinical Operations</span>
+          <h2>Records, diagnoses, doctors, and patient history stay connected.</h2>
+        </div>
+        <div class="hero-symbols">
+          <span><img src="assets/mrms-logo.svg" alt=""></span>
+          <span>ECG</span>
+          <span>RX</span>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <article class="stat"><span>Patients</span><strong id="statPatients">0</strong></article>
+        <article class="stat"><span>Doctors</span><strong id="statDoctors">0</strong></article>
+        <article class="stat"><span>Conditions</span><strong id="statConditions">0</strong></article>
+        <article class="stat"><span>Diagnoses</span><strong id="statDiagnoses">0</strong></article>
+      </div>
+      <div class="split-grid">
+        <section class="panel">
+          <h2>Diagnosis Severity</h2>
+          <div id="severityList" class="metric-list"></div>
+        </section>
+        <section class="panel">
+          <h2>Condition Status</h2>
+          <div id="conditionStatusList" class="metric-list"></div>
+        </section>
+      </div>
+    </section>
+
+    <section id="patients" class="view">
+      <div class="filter-panel">
+        <input id="patientSearch" type="search" placeholder="Search name or phone">
+        <select id="patientFilterGender">
+          <option value="">All genders</option>
+          <option>Female</option>
+          <option>Male</option>
+        </select>
+        <select id="patientFilterHasConditions">
+          <option value="">Any condition count</option>
+          <option value="yes">Has conditions</option>
+          <option value="no">No conditions</option>
+        </select>
+        <label>Date of birth from<input id="patientDobFrom" type="date"></label>
+        <label>Date of birth to<input id="patientDobTo" type="date"></label>
+        <button type="button" class="secondary" id="resetPatientFilters">Reset Filters</button>
+        <button type="button" id="newPatientBtn">New Patient</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>DOB</th><th>Gender</th><th>Phone</th><th>Conditions</th><th>Actions</th></tr></thead>
+          <tbody id="patientsTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="conditions" class="view">
+      <div class="filter-panel">
+        <input id="conditionSearch" type="search" placeholder="Search patient, disease, doctor, status">
+        <select id="conditionFilterDisease"><option value="">All diseases</option></select>
+        <select id="conditionFilterPatient"><option value="">All patients</option></select>
+        <select id="conditionFilterDoctor"><option value="">All doctors</option></select>
+        <select id="conditionFilterStatus">
+          <option value="">All statuses</option>
+          <option>Active</option>
+          <option>Recovered</option>
+          <option>Referred</option>
+          <option>Monitoring</option>
+        </select>
+        <select id="conditionFilterSpecialty"><option value="">All specialties</option></select>
+        <label>Created from<input id="conditionCreatedFrom" type="date"></label>
+        <label>Created to<input id="conditionCreatedTo" type="date"></label>
+        <button type="button" class="secondary" id="resetConditionFilters">Reset Filters</button>
+        <button type="button" id="newConditionBtn">New Condition</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Patient</th><th>Disease</th><th>Doctor</th><th>Status</th><th>Notes</th><th>Actions</th></tr></thead>
+          <tbody id="conditionsTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="doctors" class="view">
+      <div class="filter-panel">
+        <input id="doctorSearch" type="search" placeholder="Search doctors, specialty, department">
+        <select id="doctorSpecialtyFilter"><option value="">All specialties</option></select>
+        <select id="doctorDepartmentFilter"><option value="">All departments</option></select>
+        <select id="doctorHasPatientsFilter">
+          <option value="">Any patient count</option>
+          <option value="yes">Has assigned patients</option>
+          <option value="no">No assigned patients</option>
+        </select>
+        <button type="button" class="secondary" id="resetDoctorFilters">Reset Filters</button>
+        <button type="button" id="newDoctorBtn">New Doctor</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Specialty</th><th>Department</th><th>Contact</th><th>Patients</th><th>Actions</th></tr></thead>
+          <tbody id="doctorsTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="diagnoses" class="view">
+      <div class="filter-panel">
+        <input id="diagnosisSearch" type="search" placeholder="Search patient, disease, ICD, severity">
+        <select id="diagnosisConditionFilter"><option value="">All conditions</option></select>
+        <select id="diagnosisPatientFilter"><option value="">All patients</option></select>
+        <select id="diagnosisDiseaseFilter"><option value="">All diseases</option></select>
+        <select id="diagnosisDoctorFilter"><option value="">All doctors</option></select>
+        <select id="diagnosisSeverityFilter">
+          <option value="">All severities</option>
+          <option>Mild</option>
+          <option>Moderate</option>
+          <option>Severe</option>
+          <option>Critical</option>
+        </select>
+        <label>Created from<input id="diagnosisCreatedFrom" type="date"></label>
+        <label>Created to<input id="diagnosisCreatedTo" type="date"></label>
+        <button type="button" class="secondary" id="resetDiagnosisFilters">Reset Filters</button>
+        <button type="button" id="newDiagnosisBtn">New Diagnosis</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Patient</th><th>Disease</th><th>ICD Code</th><th>Description</th><th>Severity</th><th>Actions</th></tr></thead>
+          <tbody id="diagnosesTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="portal" class="view">
+      <div class="panel">
+        <h2>My Medical History</h2>
+        <div id="patientPortalContent" class="related-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2 id="modalTitle">Modal</h2>
+        <button type="button" class="icon-btn" id="modalClose">x</button>
+      </div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clinical MRMS Login</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="auth-page">
+  <section id="authScreen" class="auth-screen">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <img class="auth-logo" src="assets/mrms-logo.svg" alt="Clinical MRMS logo">
+        <div>
+          <p class="eyebrow">Clinical MRMS</p>
+          <h1 id="authTitle">Create account</h1>
+          <p id="authSubtitle" class="muted">Register as a patient to access your medical history.</p>
+        </div>
+      </div>
+      <form id="loginForm" class="auth-form" hidden>
+        <label>Email<input id="loginEmail" type="email" required></label>
+        <label>Password<input id="loginPassword" type="password" required></label>
+        <button type="submit">Login</button>
+      </form>
+      <form id="publicRegisterForm" class="auth-form">
+        <label>Full name<input id="publicName" required></label>
+        <label>Email<input id="publicEmail" type="email" required></label>
+        <label>Password<input id="publicPassword" type="password" minlength="6" required></label>
+        <label>Date of birth<input id="publicDob" type="date" required></label>
+        <label>Gender
+          <select id="publicGender" required>
+            <option value="">Select gender</option>
+            <option>Female</option>
+            <option>Male</option>
+          </select>
+        </label>
+        <label>Phone<input id="publicPhone" required></label>
+        <button type="submit" class="secondary">Register</button>
+      </form>
+      <div class="auth-switch">
+        <span id="authSwitchText">Already have an account?</span>
+        <button type="button" id="authSwitchBtn">Login</button>
+      </div>
+      <span id="authMessage" class="status auth-message" hidden></span>
+    </div>
+  </section>
+
+  <script src="auth.js"></script>
+</body>
+</html>
